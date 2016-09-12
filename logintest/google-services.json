@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "15090935218",
+    "project_id": "logintest-b8e2d"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:15090935218:android:5ee2852e9b88f3b9",
+        "android_client_info": {
+          "package_name": "com.example.logintest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "15090935218-9hmq2vqo8vt5vgev51536s1psnuuulni.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.logintest",
+            "certificate_hash": "9EE96E46340FB213E63C45DCCCA913C7E5C46849"
+          }
+        },
+        {
+          "client_id": "15090935218-o30jn8lef00u2vril2a7jflveebltrd0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAw8zXyNKNGwlA2RFZT5TgfjysL_I9oi0g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
