@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         retrofit = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
         APIInterface apiInterface=retrofit.create(APIInterface.class);
 
-        Call<DataModel> call=apiInterface.getJson();
+        Call<DataModel> call=apiInterface.getJson(API_KEY);
         Log.d("URL",retrofit+"");
         call.enqueue(new Callback<DataModel>() {
             @Override
