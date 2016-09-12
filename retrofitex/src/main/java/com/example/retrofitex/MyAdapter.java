@@ -47,7 +47,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         List<DataModel.ResultsBean.PhotosBean> data2=datalist.get(position).getPhotos();
 
         final String url1 = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=" +
-                data2.get(0).getPhotoReference().toString() + "&key=AIzaSyAw8zXyNKNGwlA2RFZT5TgfjysL_I9oi0g";
+                data2.get(0).getPhotoReference().toString() + "&key="+MainActivity.API_KEY;
        Glide.with(c).load(url1).placeholder(R.drawable.placeholder).into(holder.icon);
 
         holder.address.setOnClickListener(new View.OnClickListener() {

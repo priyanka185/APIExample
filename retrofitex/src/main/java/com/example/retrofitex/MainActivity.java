@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     MyAdapter adapter;
     DataModel dataModels;
     ProgressDialog progressDialog;
+    public static final String API_KEY="AIzaSyAw8zXyNKNGwlA2RFZT5TgfjysL_I9oi0g";
     public static final String BASE_URL = "https://maps.googleapis.com";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
