@@ -1,6 +1,11 @@
 package com.example.retrofitex;
 
 import android.app.ProgressDialog;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -19,47 +24,49 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-    RecyclerView recyclerView;
-    Retrofit retrofit;
-    MyAdapter adapter;
-    DataModel dataModels;
-    ProgressDialog progressDialog;
+    TabLayout tabLayout;
+    ViewPager viewPager;
     public static final String API_KEY="AIzaSyAw8zXyNKNGwlA2RFZT5TgfjysL_I9oi0g";
     public static final String BASE_URL = "https://maps.googleapis.com";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        recyclerView= (RecyclerView) findViewById(R.id.recycler_view);
-        LinearLayoutManager manager=new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(manager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        progressDialog=new ProgressDialog(this);
-        progressDialog.setMessage("Loading...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-        retrofit = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
-        APIInterface apiInterface=retrofit.create(APIInterface.class);
+        tabLayout= (TabLayout) findViewById(R.id.tabs);
+        viewPager= (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
+        tabLayout.setupWithViewPager(viewPager);
 
-        Call<DataModel> call=apiInterface.getJson(API_KEY);
-        Log.d("URL",retrofit+"");
-        call.enqueue(new Callback<DataModel>() {
-            @Override
-            public void onResponse(Call<DataModel> call, Response<DataModel> response) {
-                Log.d("response",response+"");
-                if(response.isSuccessful()) {
-                  dataModels=response.body();
-                    progressDialog.dismiss();
-                    adapter=new MyAdapter(MainActivity.this,dataModels.getResults());
-                    recyclerView.setAdapter(adapter);
-                }
+    }
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new Places(),"Places");
+        adapter.addFragment(new Around_me(),"Around ME");
+        viewPager.setAdapter(adapter);
+    }
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> fragmentsList=new ArrayList<>();
+        private  final List<String> fragmenttitle=new ArrayList<>();
+        public ViewPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
 
-            }
-
-            @Override
-            public void onFailure(Call<DataModel> call, Throwable t) {
-                Log.d("error",t.toString());
-            }
-        });
+        @Override
+        public Fragment getItem(int position) {
+            return fragmentsList.get(position);
+        }
+        public void addFragment(Fragment fragment,String title)
+        {
+            fragmentsList.add(fragment);
+            fragmenttitle.add(title);
+        }
+        @Override
+        public int getCount() {
+            return fragmentsList.size();
+        }
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return fragmenttitle.get(position);
+        }
     }
 }
