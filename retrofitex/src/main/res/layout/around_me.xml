@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:id="@+id/around"
         android:numColumns="3"
-        android:paddingTop="8dp"
+        android:paddingTop="10dp"
         android:paddingLeft="8dp"
         android:columnWidth="100dp"
         android:focusable="true"
