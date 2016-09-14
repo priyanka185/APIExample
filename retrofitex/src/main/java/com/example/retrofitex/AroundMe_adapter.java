@@ -8,17 +8,22 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
+
 /**
  * Created by Priyanka on 12-09-2016.
  */
 public class AroundMe_adapter extends ArrayAdapter {
     Context context;
-    String[] category_name={"ATMs","Bar","Education","Park","Hospitals","Jwellery Shops","Parking","Police"};
-    int[] image_resource={R.drawable.atms,R.drawable.bars,R.drawable.edu,R.drawable.amusment,R.drawable.hospital,
-    R.drawable.jewel,R.drawable.parking,R.drawable.police};
-    public AroundMe_adapter(Context context) {
+    String[] category_name;
+    int[] image_resource;
+    List<NearBYPlaces.ResultsBean> list;
+    public AroundMe_adapter(Context context,String[] category_name,
+            int[] image_resource) {
         super(context, R.layout.aroundme_grid);
         this.context=context;
+        this.category_name=category_name;
+        this.image_resource=image_resource;
     }
 
     @Override
