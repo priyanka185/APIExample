@@ -68,7 +68,8 @@ public class Phtotos extends AppCompatActivity {
         String url = i.getStringExtra("url");
         double rating=i.getDoubleExtra("rating",0.0);
         ratingBar.setRating((float)rating);
-        Glide.with(this).load(url).placeholder(R.drawable.placeholder).into(image);
+        if(url!=null){
+        Glide.with(this).load(url).placeholder(R.drawable.placeholder).into(image);}
         retrofit = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
         APIInterface apiInterface = retrofit.create(APIInterface.class);
         Call<Photo_model> call = apiInterface.getPhotos(place_id, API_KEY);
@@ -88,9 +89,18 @@ public class Phtotos extends AppCompatActivity {
                             Glide.with(Phtotos.this).load(url).placeholder(R.drawable.placeholder).into(image);
                         }
                     });
-                    recyclerView1.setAdapter(adapter3);
-                    Reviews adapter2 = new Reviews(Phtotos.this, photo_model.getResult().getReviews());
-                    list2.setAdapter(adapter2);
+                    if (photo_model.getResult().getPhotos() != null) {
+                        recyclerView1.setAdapter(adapter3);
+                    }
+                    else{
+                        image.setVisibility(View.GONE);
+                        recyclerView1.setVisibility(View.GONE);
+                    }
+                    if(photo_model.getResult().getReviews()!=null) {
+                        Reviews adapter2 = new Reviews(Phtotos.this, photo_model.getResult().getReviews());
+                        list2.setAdapter(adapter2);
+                    }
+
                     String address = photo_model.getResult().getFormattedAddress();
                     String phone = photo_model.getResult().getFormattedPhoneNumber();
                     address1.setText(address);
@@ -104,14 +114,24 @@ public class Phtotos extends AppCompatActivity {
                     fri = (TextView) findViewById(R.id.fri);
                     sat = (TextView) findViewById(R.id.sat);
                     sun = (TextView) findViewById(R.id.sun);
-                    mon.setText(photo_model.getResult().getOpeningHours().getWeekdayText().get(0));
-                    tue.setText(photo_model.getResult().getOpeningHours().getWeekdayText().get(1));
-                    wed.setText(photo_model.getResult().getOpeningHours().getWeekdayText().get(2));
-                    thurs.setText(photo_model.getResult().getOpeningHours().getWeekdayText().get(3));
-                    fri.setText(photo_model.getResult().getOpeningHours().getWeekdayText().get(4));
-                    sat.setText(photo_model.getResult().getOpeningHours().getWeekdayText().get(5));
-                    sun.setText(photo_model.getResult().getOpeningHours().getWeekdayText().get(6));
-                    Log.d("weekday", photo_model.getResult().getOpeningHours().getWeekdayText().get(1) + "");
+                    if(photo_model.getResult().getOpeningHours()!=null) {
+                        mon.setText(photo_model.getResult().getOpeningHours().getWeekdayText().get(0));
+                        tue.setText(photo_model.getResult().getOpeningHours().getWeekdayText().get(1));
+                        wed.setText(photo_model.getResult().getOpeningHours().getWeekdayText().get(2));
+                        thurs.setText(photo_model.getResult().getOpeningHours().getWeekdayText().get(3));
+                        fri.setText(photo_model.getResult().getOpeningHours().getWeekdayText().get(4));
+                        sat.setText(photo_model.getResult().getOpeningHours().getWeekdayText().get(5));
+                        sun.setText(photo_model.getResult().getOpeningHours().getWeekdayText().get(6));
+                    }else{
+                        mon.setVisibility(View.GONE);
+                        tue.setVisibility(View.GONE);
+                        wed.setVisibility(View.GONE);
+                        thurs.setVisibility(View.GONE);
+                        fri.setVisibility(View.GONE);
+                        sat.setVisibility(View.GONE);
+                        sun.setVisibility(View.GONE);
+                    }
+                    //Log.d("weekday", photo_model.getResult().getOpeningHours().getWeekdayText().get(1) + "");
                 }
 
             }

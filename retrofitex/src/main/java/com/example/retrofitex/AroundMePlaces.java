@@ -2,10 +2,21 @@ package com.example.retrofitex;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import com.example.retrofitex.NearBYAdapter;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -18,7 +29,13 @@ ListView list;
     Retrofit retrofit;
     ProgressDialog progressDialog;
     NearBYPlaces places;
-    String radius="500";
+    String radius="5000";
+    double distance;
+    Location current_location, places_location;
+    String lat,lng;
+    NearBYAdapter adapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,8 +45,8 @@ ListView list;
         String title=i.getStringExtra("title");
         setTitle(title);
         String type=i.getStringExtra("type");
-        String lat=i.getStringExtra("lat");
-        String lng=i.getStringExtra("lng");
+         lat=i.getStringExtra("lat");
+         lng=i.getStringExtra("lng");
         Log.d("LAT",lat+","+lng);
         progressDialog=new ProgressDialog(this);
         progressDialog.setMessage("Loading...");
@@ -46,7 +63,7 @@ ListView list;
                     Log.d("successfull","successful");
                     places = response.body();
                     progressDialog.dismiss();
-                    NearBYAdapter adapter = new NearBYAdapter(AroundMePlaces.this, places.getResults());
+                    adapter = new NearBYAdapter(AroundMePlaces.this, places.getResults(),lat,lng);
                     list.setAdapter(adapter);
                 }
             }
@@ -56,6 +73,38 @@ ListView list;
 
             }
         });
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i=new Intent(AroundMePlaces.this,Phtotos.class);
+                i.putExtra("placeid", places.getResults().get(position).getPlaceId());
+                i.putExtra("rating",places.getResults().get(position).getRating());
+                if(places.getResults().get(position).getPhotos()!=null) {
+                    String url = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=" +
+                      places.getResults().get(position).getPhotos().get(0).getPhotoReference() + "&key=" + MainActivity.API_KEY;
+                     i.putExtra("url",url);
+                }
+                startActivity(i);
 
+            }
+        });}
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id=item.getItemId();
+        if(id== R.id.sortByDist){
+            adapter.sortByDistance();
+            adapter.notifyDataSetChanged();
+        }else {
+            adapter.sortByRating();
+            adapter.notifyDataSetChanged();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="4dp"
-    android:layout_marginBottom="4dp">
+    >
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/nearby_image"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:src="@drawable/placeholder"
+        android:layout_gravity="center_horizontal"
         android:paddingLeft="4dp"
         />
     <LinearLayout
@@ -18,6 +19,11 @@
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:orientation="horizontal">
         <TextView
             android:id="@+id/nearby_name"
             android:layout_width="wrap_content"
@@ -25,13 +31,38 @@
             android:text="Places NAme"
             android:textSize="16sp"
             android:textStyle="bold"/>
-        <TextView
-            android:id="@+id/nearby_address"
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:orientation="horizontal">
+        <RatingBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Places Address"
-            android:layout_marginTop="8dp"
-            android:textSize="16sp"/>
+            android:id="@+id/ratingBar3"
+            style="@android:style/Widget.Holo.RatingBar.Small"
+            android:progressTint="#ffcc00"
+            android:numStars="5"
+            android:stepSize="1"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:text="5 Reviews"
+            android:id="@+id/textView2" />
+        <TextView
+            android:id="@+id/distance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="5"
+            android:gravity="right"
+            android:textSize="16sp"
+            />
+    </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

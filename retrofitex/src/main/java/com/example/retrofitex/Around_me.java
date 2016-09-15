@@ -75,32 +75,34 @@ public class Around_me extends Fragment implements GoogleApiClient.ConnectionCal
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
+        if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            location = LocationServices.FusedLocationApi.getLastLocation(client);
+            if (location != null) {
+                lat = String.valueOf(location.getLatitude());
+                lng = String.valueOf(location.getLongitude());
+                Log.d("LAT", lat + "," + lng);
+                grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent i = new Intent(parent.getContext(), AroundMePlaces.class);
+                        i.putExtra("type", category_name[position].toLowerCase());
+                        i.putExtra("title", category_name[position]);
+                        i.putExtra("lat", lat);
+                        i.putExtra("lng", lng);
+                        startActivity(i);
+                    }
+                });
+            }else {
+                grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+                        dialog.setMessage("Turn on Location");
+                        dialog.show();
+                    }
+                });
         }
-        location = LocationServices.FusedLocationApi.getLastLocation(client);
-        if(location!=null){
-            lat= String.valueOf(location.getLatitude());
-            lng= String.valueOf(location.getLongitude());
-            Log.d("LAT",lat+","+lng);
-            grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent i=new Intent(parent.getContext(),AroundMePlaces.class);
-                    i.putExtra("type",category_name[position].toLowerCase());
-                    i.putExtra("title",category_name[position]);
-                    i.putExtra("lat",lat);
-                    i.putExtra("lng",lng);
-                    startActivity(i);
-                }
-            });
+
         }
     }
 
