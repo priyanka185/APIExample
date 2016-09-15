@@ -55,7 +55,7 @@ ListView list;
         retrofit = new Retrofit.Builder().baseUrl(MainActivity.BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
         APIInterface apiInterface=retrofit.create(APIInterface.class);
 
-        Call<NearBYPlaces> call=apiInterface.getNearByPlaces(lat+","+lng,radius,type,MainActivity.API_KEY);
+        Call<NearBYPlaces> call=apiInterface.getNearByPlaces(lat+","+lng,"distance",type,MainActivity.API_KEY);
         call.enqueue(new Callback<NearBYPlaces>() {
             @Override
             public void onResponse(Call<NearBYPlaces> call, Response<NearBYPlaces> response) {

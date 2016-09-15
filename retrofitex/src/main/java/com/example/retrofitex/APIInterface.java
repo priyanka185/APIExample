@@ -20,6 +20,6 @@ public interface APIInterface {
     Call<Photo_model> getPhotos(@Query("placeid") String place_id, @Query("key") String api_key);
 
     @GET("maps/api/place/nearbysearch/json")
-    Call<NearBYPlaces> getNearByPlaces(@Query("location") String lat, @Query("radius") String radius, @Query("type") String type,
+    Call<NearBYPlaces> getNearByPlaces(@Query("location") String lat, @Query("rankby") String distance, @Query("type") String type,
                                        @Query("key") String APi_KEY);
 }
