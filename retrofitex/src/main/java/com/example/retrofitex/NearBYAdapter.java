@@ -50,7 +50,6 @@ public class NearBYAdapter extends ArrayAdapter {
         distance=getDistance(position);
         name.setText(list.get(position).getName());
         distance1.setText(String.format("%.2f",distance)+" km");
-        sortByRating();
 
      /* if(list.get(position).getPhotos()!=null) {
     String url = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=" +
